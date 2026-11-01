@@ -27,7 +27,7 @@
     --sans: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--paper); }
+  html { scroll-behavior: smooth; scroll-snap-type: y mandatory; -webkit-text-size-adjust: 100%; background: var(--paper); }
   body { margin: 0; font-family: var(--sans); color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
   img { display: block; max-width: 100%; height: auto; }
   a { color: inherit; }
@@ -47,7 +47,7 @@
 
   /* ---------- slides ---------- */
   main { position: relative; }
-  .slide { position: relative; height: 100vh; height: 100svh; padding: var(--top) var(--pad) var(--bot); font-size: var(--u); }
+  .slide { position: relative; height: 100vh; height: 100svh; padding: var(--top) var(--pad) var(--bot); font-size: var(--u); scroll-snap-align: start; scroll-snap-stop: always; }
   .slide::before { content: ""; position: absolute; z-index: 2; right: clamp(18px, 3.2vw, 52px); bottom: 0; width: 7px; height: 0; border-radius: 99px; background: var(--ink); pointer-events: none; }
   .cover::before { height: 50%; }
   #s-about::before { height: 25%; }
@@ -124,7 +124,6 @@
   .links { display: grid; gap: .5em; justify-items: start; }
   .links a { text-decoration: none; border-bottom: 1.5px solid var(--ink); padding-bottom: 1px; }
   .links a:hover { color: var(--mute); border-bottom-color: var(--mute); }
-  #s-intern-0 h2 { font-size: min(7.4vw, 15vh) !important; line-height: .9; }
 
   /* ---------- cover ---------- */
   .cover { padding-bottom: var(--bot); }
@@ -134,9 +133,10 @@
   .cover .name::after { content: ""; display: inline-block; width: .06em; height: .9em; margin-left: .14em; vertical-align: -.08em; background: var(--ink); animation: cursor-blink 1s steps(1) infinite; }
   @keyframes cursor-blink { 50% { opacity: 0; } }
   .cover .inst { margin: .9em 0 0; font-weight: 700; letter-spacing: -.035em; line-height: 1; font-size: clamp(22px, min(3.6vw, 6.4vh), 64px); }
-  .cover .meta-row { order: 2; margin-top: 1.8em; display: flex; }
+  .cover .meta-row { order: 3; margin-top: 1.8em; display: flex; }
+  .cover .meta-row .l { display: flex; flex-wrap: wrap; gap: 0 3em; }
   .cover .meta-row span { display: block; line-height: 1.5; font-size: 1.12em; color: var(--mute); }
-  .cover .tag { order: 3; margin: 1.6em 0 0; max-width: 40em; font-style: italic; font-size: 1.12em; color: var(--ink); }
+  .cover .tag { order: 2; margin: 1.6em 0 0; max-width: 40em; font-style: italic; font-size: 1.12em; color: var(--ink); }
   .cover .portfolio { display: none; }
 
   .word { display: inline-block; opacity: 0; transform: translateY(.45em); transition: opacity .45s ease, transform .45s ease; }
@@ -153,7 +153,8 @@
   /* ---------- small / short screens: slides flow ---------- */
   @media (max-width: 860px), (max-height: 600px) {
     :root { --u: 14.5px; --pad: 20px; --top: 62px; --bot: 54px; }
-    .slide { height: auto; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; }
+    html { scroll-snap-type: none; }
+    .slide { height: auto; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; scroll-snap-align: none; scroll-snap-stop: normal; }
     .stage, .stage.col { height: auto; flex-direction: column; align-items: stretch; gap: 2.4em; }
     .win { flex: none; max-height: none; }
     .cols { grid-template-columns: 1fr !important; gap: 1.6em; }
@@ -181,7 +182,7 @@
     <button type="button" data-group="research" data-target="s-research">Research</button>
     <button type="button" data-group="seg" data-target="s-seg-1">Segmentation</button>
     <button type="button" data-group="how" data-target="s-how">How I Work</button>
-    <button type="button" data-group="intern" data-target="s-intern-0">Internship</button>
+    <button type="button" data-group="intern" data-target="s-intern-1">Internship</button>
     <button type="button" data-group="next" data-target="s-next">What's Next</button>
     <button type="button" data-group="contact" data-target="s-contact">Contact</button>
     <a href="https://www.linkedin.com/in/riddhima-kapoor-3177641b4" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens in a new tab)">linkedin</a>
@@ -567,24 +568,13 @@
   </section>
 
   <!-- ============ 7. INTERNSHIP ============ -->
-  <section class="slide" id="s-intern-0" data-group="intern" aria-label="Internship">
-    <div class="stage">
-      <article class="win center" style="--w:46;--i:0">
-        <p class="fn">internship</p>
-        <div class="body" style="padding:2.4em 2.4em 2.6em">
-          <h2 style="font-size:3.6em;margin-bottom:.25em">CTA Apparels<br>Production Merchandising Internship</h2>
-          <p class="lead" style="margin:0;font-weight:600">What I actually did</p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section class="slide" id="s-intern-1" data-group="intern" aria-label="Internship: orders, samples and buyers">
+  <section class="slide" id="s-intern-1" data-group="intern" aria-label="Internship: CTA Apparels production merchandising">
     <div class="stage">
       <article class="win" style="--w:84;--fs:.92;--i:0">
-        <p class="fn">what i actually did.txt</p>
+        <p class="fn">internship / what i actually did.txt</p>
         <div class="body cols" style="--cols:1fr 14em">
           <div>
+            <h2 class="sm">CTA Apparels' Production Merchandising Internship</h2>
             <h3>Order &amp; Sample Management</h3>
             <ul>
               <li><strong>Tracked 25&ndash;30 styles simultaneously</strong> across the order cycle, from confirmation through factory handover</li>
