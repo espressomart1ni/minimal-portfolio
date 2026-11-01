@@ -27,8 +27,7 @@
     --sans: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--paper); }
-  html.is-dragging { scroll-snap-type: none; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--paper); }
   body { margin: 0; font-family: var(--sans); color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
   img { display: block; max-width: 100%; height: auto; }
   a { color: inherit; }
@@ -44,30 +43,28 @@
   .topnav a, .topnav button { flex: none; padding: 0 0 3px; border: 0; background: none; cursor: pointer; text-decoration: none; font-size: 12.5px; letter-spacing: .005em; color: var(--mute); border-bottom: 1.5px solid transparent; transition: color .15s ease; }
   .topnav a:hover, .topnav button:hover { color: var(--ink); }
   .topnav button[aria-current="true"] { color: var(--ink); border-bottom-color: var(--ink); }
-  .counter { padding: 3px 0 0 10px; background: var(--paper); position: fixed; z-index: 50; right: calc(var(--pad) + 22px); bottom: clamp(14px, 2.4vh, 24px); font-size: 11.5px; color: var(--ink); font-variant-numeric: tabular-nums; pointer-events: none; }
-  .scroll-rail { position: fixed; z-index: 60; top: clamp(96px, 13vh, 132px); right: clamp(18px, 2.4vw, 42px); bottom: clamp(58px, 9vh, 78px); width: 16px; }
-  .scroll-rail::before { content: ""; position: absolute; inset: 0 6px; border-radius: 99px; background: var(--hair); }
-  .scroll-thumb { position: absolute; top: 0; left: 0; width: 16px; height: clamp(54px, 8vh, 82px); padding: 0; border: 0; border-radius: 99px; background: var(--ink); cursor: grab; touch-action: none; }
-  .scroll-thumb:active { cursor: grabbing; }
-  .scroll-thumb:focus-visible { outline-offset: 4px; }
+  .scroll-thread { position: fixed; z-index: 1; top: 0; bottom: 0; left: clamp(14px, 2.5vw, 40px); width: 3px; background: var(--hair); pointer-events: none; }
 
   /* ---------- slides ---------- */
   main { position: relative; }
-  .slide { position: relative; height: 100vh; height: 100svh; scroll-snap-align: start; scroll-snap-stop: always; padding: var(--top) var(--pad) var(--bot); font-size: var(--u); }
+  .slide { position: relative; height: 100vh; height: 100svh; padding: var(--top) var(--pad) var(--bot); font-size: var(--u); }
+  .slide::before { content: ""; position: absolute; z-index: 2; left: calc(clamp(14px, 2.5vw, 40px) - 2.5px); bottom: clamp(28px, 7vh, 72px); width: 8px; height: clamp(56px, 12vh, 132px); border-radius: 99px; background: var(--ink); pointer-events: none; }
   .stage { height: 100%; width: 100%; display: flex; align-items: flex-end; gap: clamp(28px, 4.4vw, 76px); }
   .stage.col { flex-direction: column; align-items: stretch; justify-content: flex-end; gap: 2.4em; }
   .row3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 3.6vw, 60px); width: 100%; }
 
   .win { flex: var(--w, 50) 1 0; min-width: 0; max-height: 100%; display: flex; flex-direction: column; justify-content: flex-end; font-size: calc(var(--u) * var(--fs, 1)); line-height: 1.5; }
   .win .body { padding: 0 !important; overflow: visible; font-size: 1em; }
-  .fn { margin: 0 0 1.5em; font-size: .95em; font-style: italic; color: var(--mute); }
+  .fn { margin: 0 0 1.5em; font-size: .95em; font-style: italic; color: var(--mute); text-transform: capitalize; }
   .cols { display: grid; grid-template-columns: var(--cols, 1fr 1fr); gap: clamp(24px, 3.2vw, 52px); align-items: end; }
   .cols.mid { align-items: center; }
+  .about-copy { max-width: 76ch; }
+  #s-about .win { --w: 78; }
 
-  .win h2 { font-weight: 700; text-transform: lowercase; letter-spacing: -.058em; line-height: .88; font-size: 4.6em; margin: 0 0 .5em; text-wrap: balance; }
+  .win h2 { font-weight: 700; text-transform: capitalize; letter-spacing: -.058em; line-height: .88; font-size: 4.6em; margin: 0 0 .5em; text-wrap: balance; }
   .win h2.sm { font-size: 3.3em; }
   .win h2.xs { font-size: 2.35em; line-height: .92; letter-spacing: -.05em; }
-  .win h3 { font-size: 1em; font-weight: 700; font-style: italic; margin: 1.5em 0 .45em; line-height: 1.35; letter-spacing: 0; }
+  .win h3 { font-size: 1em; font-weight: 700; font-style: italic; margin: 1.5em 0 .45em; line-height: 1.35; letter-spacing: 0; text-transform: capitalize; }
   .win h3:first-child, .win h2 + h3 { margin-top: 0; }
   .win p { margin: 0 0 .8em; max-width: 64ch; }
   .win ul { margin: 0; padding-left: 1.1em; max-width: 64ch; }
@@ -130,15 +127,13 @@
   .cover { padding-bottom: var(--bot); }
   .cover-in { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; font-size: var(--u); }
   .cover .id { order: 1; }
-  .cover .name { margin: 0; font-weight: 700; text-transform: lowercase; letter-spacing: -.065em; line-height: .82; font-size: clamp(56px, min(14vw, 21vh), 340px); margin-left: -.045em; }
+  .cover .name { margin: 0; font-weight: 700; letter-spacing: -.065em; line-height: .82; font-size: clamp(56px, min(14vw, 21vh), 340px); margin-left: -.045em; }
   .cover .name span { display: block; }
   .cover .inst { margin: .9em 0 0; font-weight: 700; letter-spacing: -.035em; line-height: 1; font-size: clamp(22px, min(3.6vw, 6.4vh), 64px); }
   .cover .meta-row { order: 2; margin-top: 1.8em; display: flex; }
   .cover .meta-row span { display: block; line-height: 1.5; font-size: 1.12em; color: var(--mute); }
   .cover .tag { order: 3; margin: 1.6em 0 0; max-width: 40em; font-style: italic; font-size: 1.12em; color: var(--ink); }
-  .cover .portfolio { order: 4; margin: 2em 0 0; font-size: 1.12em; font-weight: 700; letter-spacing: -.02em; text-transform: lowercase; }
-  .cover .hint { position: absolute; right: calc(var(--pad) + 28px); bottom: calc(var(--bot) + 2.4em); margin: 0; font-size: 1.05em; color: var(--mute); }
-  .cover .hint::after { content: ""; display: block; width: 3px; height: 5em; margin: .65em 0 0 auto; border-radius: 99px; background: var(--ink); }
+  .cover .portfolio { order: 4; margin: 2em 0 0; font-size: 1.12em; font-weight: 700; letter-spacing: -.02em; text-transform: capitalize; }
 
   /* ---------- lightbox ---------- */
   .lightbox { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(252,252,242,.97); cursor: zoom-out; }
@@ -151,7 +146,6 @@
   /* ---------- small / short screens: slides flow ---------- */
   @media (max-width: 860px), (max-height: 600px) {
     :root { --u: 14.5px; --pad: 20px; --top: 62px; --bot: 54px; }
-    html { scroll-snap-type: y proximity; }
     .slide { height: auto; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; }
     .stage, .stage.col { height: auto; flex-direction: column; align-items: stretch; gap: 2.4em; }
     .win { flex: none; max-height: none; }
@@ -165,11 +159,9 @@
     .cover { min-height: 100svh; }
     .cover-in { min-height: calc(100svh - var(--top) - var(--bot)); }
     .cover .name { font-size: clamp(56px, 18vw, 132px); }
-    .cover .hint { display: none; }
-    .scroll-rail { right: 12px; }
     .win .big { font-size: 22vw; }
   }
-  @media print { .topnav, .counter, .scroll-rail, .lightbox { display: none; } .slide { height: auto; } }
+  @media print { .topnav, .scroll-thread, .lightbox { display: none; } .slide { height: auto; } }
 
 </style>
 </head>
@@ -177,21 +169,18 @@
 <a class="skip" href="#s-about">Skip to content</a>
 <header class="topnav">
   <nav id="nav" aria-label="Sections">
-    <button type="button" data-group="about" data-target="s-about">about me</button>
-    <button type="button" data-group="cta" data-target="s-cta-1">cta project</button>
-    <button type="button" data-group="research" data-target="s-research">research</button>
-    <button type="button" data-group="seg" data-target="s-seg-1">segmentation</button>
-    <button type="button" data-group="how" data-target="s-how">how i work</button>
-    <button type="button" data-group="intern" data-target="s-intern-0">internship</button>
-    <button type="button" data-group="next" data-target="s-next">what's next</button>
-    <button type="button" data-group="contact" data-target="s-contact">contact</button>
+    <button type="button" data-group="about" data-target="s-about">About Me</button>
+    <button type="button" data-group="cta" data-target="s-cta-1">CTA Project</button>
+    <button type="button" data-group="research" data-target="s-research">Research</button>
+    <button type="button" data-group="seg" data-target="s-seg-1">Segmentation</button>
+    <button type="button" data-group="how" data-target="s-how">How I Work</button>
+    <button type="button" data-group="intern" data-target="s-intern-0">Internship</button>
+    <button type="button" data-group="next" data-target="s-next">What's Next</button>
+    <button type="button" data-group="contact" data-target="s-contact">Contact</button>
     <a href="https://www.linkedin.com/in/riddhima-kapoor-3177641b4" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens in a new tab)">linkedin</a>
   </nav>
 </header>
-<div class="counter" id="counter" aria-hidden="true"></div>
-<div class="scroll-rail" id="scroll-rail" aria-label="Page scroll position">
-  <button class="scroll-thumb" id="scroll-thumb" type="button" aria-label="Drag to scroll through the portfolio"></button>
-</div>
+<div class="scroll-thread" aria-hidden="true"></div>
 <main id="main">
 
   <!-- ============ 1. COVER ============ -->
@@ -206,7 +195,6 @@
         <div class="l"><span>Retail Merchandising</span><span>Consumer Behaviour Analytics</span></div>
       </div>
       <p class="tag">I believe merchandisers don't need more data, they need faster signal.</p>
-      <p class="hint">scroll</p>
     </div>
   </section>
 
@@ -214,9 +202,9 @@
   <section class="slide" id="s-about" data-group="about" aria-label="About me">
     <div class="stage">
       <article class="win" style="--w:62;--i:0">
-        <p class="fn">about me</p>
-        <div class="body cols" style="--cols:15em 1fr">
-          <div>
+        <p class="fn">About Me</p>
+        <div class="body">
+          <div class="about-copy">
             <h2>About Me</h2>
             <p class="lead">I'm <strong>Riddhima Kapoor</strong>, a Fashion Technology student at NIFT (<strong>BFT</strong>), with my foundation built in production merchandising. From there, my interest has moved toward the retail side of fashion &mdash; the business of it, where <strong>consumer behaviour</strong> and point-of-sale signal actually shape what gets bought and sold.</p>
             <p class="lead">Along the way, I've picked up a habit of building things: tools and models that take scattered data and turn it into something people can actually act on.</p>
@@ -231,7 +219,7 @@
   <section class="slide" id="s-cta-1" data-group="cta" aria-label="Project from CTA Apparels">
     <div class="stage">
       <article class="win" style="--w:84;--i:0">
-        <p class="fn">cta apparels / shipment risk dashboard.xlsx</p>
+        <p class="fn">CTA Apparels / shipment risk dashboard.xlsx</p>
         <div class="body cols mid" style="--cols:.78fr 1.22fr">
           <div>
             <h2 class="sm">Project from CTA Apparels</h2>
@@ -708,12 +696,8 @@
   /* which slide is on screen */
   var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
   var navBtns = Array.prototype.slice.call(document.querySelectorAll('#nav button[data-group]'));
-  var counter = document.getElementById('counter');
   var navEl = document.getElementById('nav');
-  var rail = document.getElementById('scroll-rail');
-  var thumb = document.getElementById('scroll-thumb');
   var current = -1;
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
 
   function setActive(i) {
     if (i === current) return;
@@ -727,7 +711,6 @@
         navEl.scrollTo({ left: b.offsetLeft - 20, behavior: reduce ? 'auto' : 'smooth' });
       }
     });
-    counter.textContent = pad(i + 1) + ' / ' + pad(slides.length);
   }
   var ticking = false;
   function measure() {
@@ -738,75 +721,10 @@
       if (r.top <= mid && r.bottom > mid) { best = i; break; }
     }
     setActive(best);
-    updateScrollRail();
   }
   function onScroll() { if (!ticking) { ticking = true; window.requestAnimationFrame(measure); } }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
-
-  function updateScrollRail() {
-    if (!rail || !thumb) return;
-    var maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    var maxTravel = Math.max(0, rail.clientHeight - thumb.offsetHeight);
-    thumb.style.transform = 'translateY(' + (window.scrollY / maxScroll * maxTravel) + 'px)';
-  }
-
-  var dragging = false;
-  var dragOffset = 0;
-  function scrollFromPointer(clientY) {
-    var bounds = rail.getBoundingClientRect();
-    var maxTravel = Math.max(1, bounds.height - thumb.offsetHeight);
-    var next = Math.max(0, Math.min(maxTravel, clientY - bounds.top - dragOffset));
-    var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-    window.scrollTo(0, next / maxTravel * maxScroll);
-  }
-  thumb.addEventListener('pointerdown', function (e) {
-    dragging = true;
-    document.documentElement.classList.add('is-dragging');
-    dragOffset = e.clientY - thumb.getBoundingClientRect().top;
-    thumb.setPointerCapture(e.pointerId);
-    e.preventDefault();
-  });
-  thumb.addEventListener('pointermove', function (e) {
-    if (dragging) scrollFromPointer(e.clientY);
-  });
-  function stopDragging() {
-    dragging = false;
-    document.documentElement.classList.remove('is-dragging');
-    var nearest = 0;
-    var distance = Infinity;
-    slides.forEach(function (slide, i) {
-      var delta = Math.abs(slide.offsetTop - window.scrollY);
-      if (delta < distance) {
-        distance = delta;
-        nearest = i;
-      }
-    });
-    slides[nearest].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-  }
-  thumb.addEventListener('pointerup', stopDragging);
-  thumb.addEventListener('pointercancel', stopDragging);
-  thumb.addEventListener('keydown', function (e) {
-    var step = window.innerHeight;
-    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-      window.scrollBy({ top: step, behavior: reduce ? 'auto' : 'smooth' });
-      e.preventDefault();
-    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-      window.scrollBy({ top: -step, behavior: reduce ? 'auto' : 'smooth' });
-      e.preventDefault();
-    } else if (e.key === 'Home') {
-      go('s-cover');
-      e.preventDefault();
-    } else if (e.key === 'End') {
-      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: reduce ? 'auto' : 'smooth' });
-      e.preventDefault();
-    }
-  });
-  rail.addEventListener('pointerdown', function (e) {
-    if (e.target === thumb) return;
-    dragOffset = thumb.offsetHeight / 2;
-    scrollFromPointer(e.clientY);
-  });
 
   /* go to a slide */
   function go(id) {
