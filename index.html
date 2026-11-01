@@ -134,8 +134,23 @@
   @keyframes cursor-blink { 50% { opacity: 0; } }
   .cover .inst { margin: .9em 0 0; font-weight: 700; letter-spacing: -.035em; line-height: 1; font-size: clamp(22px, min(3.6vw, 6.4vh), 64px); }
   .cover .meta-row { order: 3; margin-top: 1.8em; display: flex; }
-  .cover .meta-row .l { display: flex; flex-wrap: nowrap; gap: 0 clamp(1.5em, 3vw, 3em); }
-  .cover .meta-row span { display: block; flex: 0 0 auto; white-space: nowrap; line-height: 1.5; font-size: 1.12em; color: var(--mute); }
+  .cover .meta-row .l {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0 clamp(1.5em, 3vw, 3em);
+  width: max-content;
+}
+
+.cover .meta-row span {
+  display: inline-block;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  line-height: 1.5;
+  font-size: 1.12em;
+  color: var(--mute);
+}
   .cover .tag { order: 2; margin: 1.6em 0 0; max-width: 40em; font-style: italic; font-size: 1.12em; color: var(--ink); }
   .cover .portfolio { display: none; }
 
