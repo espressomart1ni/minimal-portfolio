@@ -134,8 +134,8 @@
   @keyframes cursor-blink { 50% { opacity: 0; } }
   .cover .inst { margin: .9em 0 0; font-weight: 700; letter-spacing: -.035em; line-height: 1; font-size: clamp(22px, min(3.6vw, 6.4vh), 64px); }
   .cover .meta-row { order: 3; margin-top: 1.8em; display: flex; }
-  .cover .meta-row .l { display: flex; flex-wrap: nowrap; gap: 0 3em; }
-  .cover .meta-row span { display: block; line-height: 1.5; font-size: 1.12em; color: var(--mute); }
+  .cover .meta-row .l { display: flex; flex-wrap: nowrap; gap: 0 clamp(1.5em, 3vw, 3em); }
+  .cover .meta-row span { display: block; flex: 0 0 auto; white-space: nowrap; line-height: 1.5; font-size: 1.12em; color: var(--mute); }
   .cover .tag { order: 2; margin: 1.6em 0 0; max-width: 40em; font-style: italic; font-size: 1.12em; color: var(--ink); }
   .cover .portfolio { display: none; }
 
@@ -195,7 +195,7 @@
   <section class="slide cover active" id="s-cover" data-group="" aria-label="Cover">
     <div class="cover-in">
       <div class="id">
-        <h1 class="name">Hi, I'm Riddhima Kapoor.</h1>
+        <h1 class="name" data-typing="Hi, I'm Riddhima Kapoor." aria-label="Hi, I'm Riddhima Kapoor.">Hi, I'm Riddhima Kapoor.</h1>
         <p class="inst">NIFT | BFT</p>
       </div>
       <div class="meta-row">
@@ -700,9 +700,10 @@
     var walker = document.createTreeWalker(document.getElementById('main'), NodeFilter.SHOW_TEXT, {
       acceptNode: function (node) {
         var parent = node.parentElement;
-        if (!parent || !node.nodeValue.trim() || parent.closest('script, style, button, a, .zoom, .lightbox')) {
+        if (!parent || !node.nodeValue.trim() || parent.closest('script, style, button, a, .zoom, .lightbox, [data-typing]')) {
           return NodeFilter.FILTER_REJECT;
         }
+
         return NodeFilter.FILTER_ACCEPT;
       }
     });
@@ -724,6 +725,26 @@
       });
       textNode.parentNode.replaceChild(fragment, textNode);
     });
+  }
+
+  function typeCoverName() {
+    var name = document.querySelector('[data-typing]');
+    if (!name) return;
+    var text = name.getAttribute('data-typing') || '';
+    if (reduce) {
+      name.textContent = text;
+      return;
+    }
+    name.textContent = '';
+    var index = 0;
+    function typeNext() {
+      name.textContent = text.slice(0, index);
+      if (index < text.length) {
+        index++;
+        window.setTimeout(typeNext, 72);
+      }
+    }
+    typeNext();
   }
 
   function setActive(i) {
@@ -796,6 +817,7 @@
     if (e.key === 'Escape' && box.classList.contains('open')) closeBox();
   });
 
+  typeCoverName();
   prepareWordReveal();
   measure();
 })();
