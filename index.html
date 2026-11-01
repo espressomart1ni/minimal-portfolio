@@ -28,6 +28,7 @@
   }
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-snap-type: y mandatory; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--paper); }
+  html.is-dragging { scroll-snap-type: none; }
   body { margin: 0; font-family: var(--sans); color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
   img { display: block; max-width: 100%; height: auto; }
   a { color: inherit; }
@@ -43,7 +44,12 @@
   .topnav a, .topnav button { flex: none; padding: 0 0 3px; border: 0; background: none; cursor: pointer; text-decoration: none; font-size: 12.5px; letter-spacing: .005em; color: var(--mute); border-bottom: 1.5px solid transparent; transition: color .15s ease; }
   .topnav a:hover, .topnav button:hover { color: var(--ink); }
   .topnav button[aria-current="true"] { color: var(--ink); border-bottom-color: var(--ink); }
-  .counter { padding: 3px 0 0 10px; background: var(--paper); position: fixed; z-index: 50; right: var(--pad); bottom: clamp(14px, 2.4vh, 24px); font-size: 11.5px; color: var(--ink); font-variant-numeric: tabular-nums; pointer-events: none; }
+  .counter { padding: 3px 0 0 10px; background: var(--paper); position: fixed; z-index: 50; right: calc(var(--pad) + 22px); bottom: clamp(14px, 2.4vh, 24px); font-size: 11.5px; color: var(--ink); font-variant-numeric: tabular-nums; pointer-events: none; }
+  .scroll-rail { position: fixed; z-index: 60; top: clamp(96px, 13vh, 132px); right: clamp(18px, 2.4vw, 42px); bottom: clamp(58px, 9vh, 78px); width: 16px; }
+  .scroll-rail::before { content: ""; position: absolute; inset: 0 6px; border-radius: 99px; background: var(--hair); }
+  .scroll-thumb { position: absolute; top: 0; left: 0; width: 16px; height: clamp(54px, 8vh, 82px); padding: 0; border: 0; border-radius: 99px; background: var(--ink); cursor: grab; touch-action: none; }
+  .scroll-thumb:active { cursor: grabbing; }
+  .scroll-thumb:focus-visible { outline-offset: 4px; }
 
   /* ---------- slides ---------- */
   main { position: relative; }
@@ -124,15 +130,15 @@
   .cover { padding-bottom: var(--bot); }
   .cover-in { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; font-size: var(--u); }
   .cover .id { order: 1; }
-  .cover .name { margin: 0; font-weight: 700; text-transform: lowercase; letter-spacing: -.065em; line-height: .82; font-size: clamp(64px, min(17.5vw, 26vh), 420px); margin-left: -.045em; }
+  .cover .name { margin: 0; font-weight: 700; text-transform: lowercase; letter-spacing: -.065em; line-height: .82; font-size: clamp(56px, min(14vw, 21vh), 340px); margin-left: -.045em; }
   .cover .name span { display: block; }
   .cover .inst { margin: .9em 0 0; font-weight: 700; letter-spacing: -.035em; line-height: 1; font-size: clamp(22px, min(3.6vw, 6.4vh), 64px); }
   .cover .meta-row { order: 2; margin-top: 1.8em; display: flex; }
   .cover .meta-row span { display: block; line-height: 1.5; font-size: 1.12em; color: var(--mute); }
   .cover .tag { order: 3; margin: 1.6em 0 0; max-width: 40em; font-style: italic; font-size: 1.12em; color: var(--ink); }
   .cover .portfolio { order: 4; margin: 2em 0 0; font-size: 1.12em; font-weight: 700; letter-spacing: -.02em; text-transform: lowercase; }
-  .cover .hint { position: absolute; right: var(--pad); bottom: calc(var(--bot) + 2.4em); margin: 0; font-size: 1em; color: var(--mute); }
-  .cover .hint::after { content: ""; display: block; width: 1px; height: 2.6em; margin: .5em 0 0 auto; background: var(--ink); }
+  .cover .hint { position: absolute; right: calc(var(--pad) + 28px); bottom: calc(var(--bot) + 2.4em); margin: 0; font-size: 1.05em; color: var(--mute); }
+  .cover .hint::after { content: ""; display: block; width: 3px; height: 5em; margin: .65em 0 0 auto; border-radius: 99px; background: var(--ink); }
 
   /* ---------- lightbox ---------- */
   .lightbox { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(252,252,242,.97); cursor: zoom-out; }
@@ -158,11 +164,12 @@
     .win figure img, .win .zoom img, .win .photo img { max-height: none; }
     .cover { min-height: 100svh; }
     .cover-in { min-height: calc(100svh - var(--top) - var(--bot)); }
-    .cover .name { font-size: clamp(60px, 22vw, 150px); }
+    .cover .name { font-size: clamp(56px, 18vw, 132px); }
     .cover .hint { display: none; }
+    .scroll-rail { right: 12px; }
     .win .big { font-size: 22vw; }
   }
-  @media print { .topnav, .counter, .lightbox { display: none; } .slide { height: auto; } }
+  @media print { .topnav, .counter, .scroll-rail, .lightbox { display: none; } .slide { height: auto; } }
 
 </style>
 </head>
@@ -182,6 +189,9 @@
   </nav>
 </header>
 <div class="counter" id="counter" aria-hidden="true"></div>
+<div class="scroll-rail" id="scroll-rail" aria-label="Page scroll position">
+  <button class="scroll-thumb" id="scroll-thumb" type="button" aria-label="Drag to scroll through the portfolio"></button>
+</div>
 <main id="main">
 
   <!-- ============ 1. COVER ============ -->
@@ -701,6 +711,8 @@
   var navBtns = Array.prototype.slice.call(document.querySelectorAll('#nav button[data-group]'));
   var counter = document.getElementById('counter');
   var navEl = document.getElementById('nav');
+  var rail = document.getElementById('scroll-rail');
+  var thumb = document.getElementById('scroll-thumb');
   var current = -1;
   function pad(n) { return (n < 10 ? '0' : '') + n; }
 
@@ -727,10 +739,75 @@
       if (r.top <= mid && r.bottom > mid) { best = i; break; }
     }
     setActive(best);
+    updateScrollRail();
   }
   function onScroll() { if (!ticking) { ticking = true; window.requestAnimationFrame(measure); } }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
+
+  function updateScrollRail() {
+    if (!rail || !thumb) return;
+    var maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    var maxTravel = Math.max(0, rail.clientHeight - thumb.offsetHeight);
+    thumb.style.transform = 'translateY(' + (window.scrollY / maxScroll * maxTravel) + 'px)';
+  }
+
+  var dragging = false;
+  var dragOffset = 0;
+  function scrollFromPointer(clientY) {
+    var bounds = rail.getBoundingClientRect();
+    var maxTravel = Math.max(1, bounds.height - thumb.offsetHeight);
+    var next = Math.max(0, Math.min(maxTravel, clientY - bounds.top - dragOffset));
+    var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    window.scrollTo(0, next / maxTravel * maxScroll);
+  }
+  thumb.addEventListener('pointerdown', function (e) {
+    dragging = true;
+    document.documentElement.classList.add('is-dragging');
+    dragOffset = e.clientY - thumb.getBoundingClientRect().top;
+    thumb.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  thumb.addEventListener('pointermove', function (e) {
+    if (dragging) scrollFromPointer(e.clientY);
+  });
+  function stopDragging() {
+    dragging = false;
+    document.documentElement.classList.remove('is-dragging');
+    var nearest = 0;
+    var distance = Infinity;
+    slides.forEach(function (slide, i) {
+      var delta = Math.abs(slide.offsetTop - window.scrollY);
+      if (delta < distance) {
+        distance = delta;
+        nearest = i;
+      }
+    });
+    slides[nearest].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+  thumb.addEventListener('pointerup', stopDragging);
+  thumb.addEventListener('pointercancel', stopDragging);
+  thumb.addEventListener('keydown', function (e) {
+    var step = window.innerHeight;
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+      window.scrollBy({ top: step, behavior: reduce ? 'auto' : 'smooth' });
+      e.preventDefault();
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      window.scrollBy({ top: -step, behavior: reduce ? 'auto' : 'smooth' });
+      e.preventDefault();
+    } else if (e.key === 'Home') {
+      go('s-cover');
+      e.preventDefault();
+    } else if (e.key === 'End') {
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: reduce ? 'auto' : 'smooth' });
+      e.preventDefault();
+    }
+  });
+  rail.addEventListener('pointerdown', function (e) {
+    if (e.target === thumb) return;
+    dragOffset = thumb.offsetHeight / 2;
+    scrollFromPointer(e.clientY);
+  });
 
   /* go to a slide */
   function go(id) {
