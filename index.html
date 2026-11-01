@@ -58,7 +58,6 @@
 
   .win { flex: var(--w, 50) 1 0; min-width: 0; max-height: 100%; display: flex; flex-direction: column; justify-content: flex-end; font-size: calc(var(--u) * var(--fs, 1)); line-height: 1.5; }
   .win .body { padding: 0 !important; overflow: visible; font-size: 1em; }
-  .fn { margin: 0 0 1.5em; font-size: .95em; font-style: italic; color: var(--mute); text-transform: capitalize; }
   .cols { display: grid; grid-template-columns: var(--cols, 1fr 1fr); gap: clamp(24px, 3.2vw, 52px); align-items: end; }
   .cols.mid { align-items: center; }
   .about-copy { max-width: 76ch; }
@@ -224,7 +223,6 @@
   <section class="slide" id="s-about" data-group="about" aria-label="About me">
     <div class="stage">
       <article class="win" style="--w:62;--i:0">
-        <p class="fn">About Me</p>
         <div class="body">
           <div class="about-copy">
             <h2>About Me</h2>
@@ -241,7 +239,6 @@
   <section class="slide" id="s-cta-1" data-group="cta" aria-label="Project from CTA Apparels">
     <div class="stage">
       <article class="win" style="--w:84;--i:0">
-        <p class="fn">CTA Apparels / shipment risk dashboard.xlsx</p>
         <div class="body cols mid" style="--cols:.78fr 1.22fr">
           <div>
             <h2 class="sm">Project from CTA Apparels</h2>
@@ -265,7 +262,6 @@
   <section class="slide" id="s-cta-2" data-group="cta" aria-label="In short">
     <div class="stage">
       <article class="win" style="--w:88;--fs:.94;--i:0">
-        <p class="fn">in short.txt</p>
         <div class="body cols" style="--cols:1.05fr .95fr">
           <div>
             <h2>In Short</h2>
@@ -299,7 +295,6 @@
   <section class="slide" id="s-cta-3" data-group="cta" aria-label="Project framework">
     <div class="stage">
       <article class="win" style="--w:84;--i:0">
-        <p class="fn">risk parameters.xlsx</p>
         <div class="body">
           <h2>Project Framework</h2>
           <p class="flow">raw data &rarr; derived metrics &rarr; aggregated summary &rarr; visual layer &rarr; decision.</p>
@@ -323,7 +318,6 @@
   <section class="slide" id="s-cta-4" data-group="cta" aria-label="ERP integration and future scope">
     <div class="stage">
       <article class="win" style="--w:46;--i:0">
-        <p class="fn">integration + future scope</p>
         <div class="body">
           <h2 class="xs">Integration with existing ERP:</h2>
           <ul>
@@ -339,7 +333,6 @@
         </div>
       </article>
       <article class="win" style="--w:38;--i:1;--ty:1.4em">
-        <p class="fn">team review + t&a calendar</p>
         <div class="body">
           <figure>
             <button class="zoom" type="button" aria-label="Enlarge: Team reviewing the project"><img data-img="team-review" width="896" height="672" alt="A group of people gathered around a desktop computer in a lab, reviewing the dashboard together." style="width:62%;margin:0 auto 1em"></button>
@@ -356,7 +349,6 @@
   <section class="slide" id="s-research" data-group="research" aria-label="Research paper">
     <div class="stage">
       <article class="win" style="--w:44;--fs:.94;--i:0">
-        <p class="fn">research paper from nift coursework</p>
         <div class="body">
           <h2 class="xs">Research Paper from NIFT Coursework</h2>
           <p class="paper">The Absence of a Standardized Framework for Measuring Sustainable Fashion Consumption: A Critical Review and Conceptual Proposal</p>
@@ -369,7 +361,6 @@
         </div>
       </article>
       <article class="win" style="--w:40;--fs:.94;--i:1;--ty:1.2em">
-        <p class="fn">iscm framework</p>
         <div class="body">
           <h2 class="xs">The proposed fix &mdash; ISCM, a 5-dimension framework:</h2>
           <ol class="dims">
@@ -392,7 +383,6 @@
   <section class="slide" id="s-seg-1" data-group="seg" aria-label="Customer segmentation">
     <div class="stage">
       <article class="win" style="--w:84;--fs:.96;--i:0">
-        <p class="fn">customer segmentation.R</p>
         <div class="body cols" style="--cols:1fr 1fr">
           <div>
             <h2 class="sm">Segmenting Apparel Customers to Drive Merchandising Strategy</h2>
@@ -427,14 +417,12 @@
   <section class="slide" id="s-seg-2" data-group="seg" aria-label="Clustering and data processing">
     <div class="stage">
       <article class="win" style="--w:34;--i:0">
-        <p class="fn">why clustering</p>
         <div class="body">
           <h2 class="sm">Why clustering, specifically</h2>
           <p class="lead">You don't start with predefined customer "types" &mdash; you let the purchase data (frequency + spend) reveal natural groupings first, rather than assuming segments upfront. That's the justification for K-Means over just eyeballing the data or using arbitrary spend thresholds.</p>
         </div>
       </article>
       <article class="win" style="--w:52;--i:1;--ty:1.2em">
-        <p class="fn">data processing.R</p>
         <div class="body">
           <h2 class="sm">Data Processing</h2>
           <figure>
@@ -463,7 +451,6 @@
   <section class="slide" id="s-seg-3" data-group="seg" aria-label="Cluster scatter plot">
     <div class="stage">
       <article class="win" style="--w:62;--i:0">
-        <p class="fn">cluster scatter plot</p>
         <div class="body cols mid" style="--cols:1fr 1fr">
           <figure>
             <button class="zoom" type="button" aria-label="Enlarge: Cluster scatter plot"><img data-img="cluster-scatter" width="632" height="686" alt="Scatter plot of purchase frequency per month against average purchase value in INR, coloured by cluster, with a table naming cluster 1 Premium Customers (high spending), cluster 2 Low-Value Customers (low spending and low frequency) and cluster 3 Frequent Buyers / Potential (high frequency)."></button>
@@ -484,7 +471,6 @@
   <section class="slide" id="s-seg-4" data-group="seg" aria-label="KNN and model evaluation">
     <div class="stage">
       <article class="win" style="--w:36;--i:0">
-        <p class="fn">why knn</p>
         <div class="body">
           <h2 class="sm">Why add KNN on top</h2>
           <p class="lead">Segmentation is only useful if it scales. K-Means gives you groups for customers you already have; KNN is what lets you slot every new customer into the right segment automatically, in real time, without re-running clustering each time.</p>
@@ -492,7 +478,6 @@
         </div>
       </article>
       <article class="win" style="--w:46;--i:1;--ty:1.2em">
-        <p class="fn">model evaluation.R</p>
         <div class="body">
           <h2 class="sm">Model Evaluation</h2>
           <div class="cols" style="--cols:.8fr 1.2fr;gap:1.4em">
@@ -518,7 +503,6 @@
   <section class="slide" id="s-seg-5" data-group="seg" aria-label="Use and marketing strategy">
     <div class="stage col">
       <article class="win" style="--w:70;--i:0">
-        <p class="fn">use &amp; marketing strategy</p>
         <div class="body">
           <h2 class="xs">Use &amp; marketing strategy</h2>
           <p class="lead" style="margin:0">This segmentation replaces one blanket campaign with three targeted ones, matched to each group's price sensitivity and loyalty. Channel and category data (e.g., Premium skewing Omnichannel) can sharpen this further, turning one generic campaign into three margin-aware ones.</p>
@@ -526,21 +510,18 @@
       </article>
       <div class="row3">
         <article class="win" style="--w:27;--i:1;--ty:.6em">
-          <p class="fn">premium</p>
           <div class="body">
             <h2 class="xs">Premium gets no-discount personalization</h2>
             <p style="margin:0">Early access, exclusives, since discounting them wastes margin.</p>
           </div>
         </article>
         <article class="win" style="--w:27;--i:2;--ty:-.6em">
-          <p class="fn">frequent / potential</p>
           <div class="body">
             <h2 class="xs">Frequent/Potential gets bundle offers and loyalty thresholds</h2>
             <p style="margin:0">To nudge them toward Premium rather than discounts.</p>
           </div>
         </article>
         <article class="win" style="--w:27;--i:3;--ty:.6em">
-          <p class="fn">low-value</p>
           <div class="body">
             <h2 class="xs">Low-Value gets seasonal promos and discount-led reactivation</h2>
             <p style="margin:0">Where price sensitivity is highest.</p>
@@ -554,7 +535,6 @@
   <section class="slide" id="s-how" data-group="how" aria-label="How I work">
     <div class="stage">
       <article class="win" style="--w:86;--fs:.96;--i:0">
-        <p class="fn">how i work</p>
         <div class="body">
           <h2>How I Work</h2>
           <p class="flow" style="color:#d92b20">raw data &rarr; derived metrics &rarr; aggregated summary &rarr; visual layer &rarr; decision.</p>
@@ -586,7 +566,6 @@
   <section class="slide" id="s-intern-1" data-group="intern" aria-label="Internship: CTA Apparels production merchandising">
     <div class="stage">
       <article class="win" style="--w:84;--fs:.92;--i:0">
-        <p class="fn">internship / what i actually did.txt</p>
         <div class="body cols" style="--cols:1fr 14em">
           <div>
             <h2 class="sm">CTA Apparels' Production Merchandising Internship</h2>
@@ -614,7 +593,6 @@
   <section class="slide" id="s-intern-2" data-group="intern" aria-label="Internship: systems and cross-functional exposure">
     <div class="stage">
       <article class="win" style="--w:36;--i:0">
-        <p class="fn">systems &amp; technical exposure</p>
         <div class="body">
           <h2 class="sm">Systems &amp; Technical Exposure</h2>
           <ul>
@@ -624,7 +602,6 @@
         </div>
       </article>
       <article class="win" style="--w:38;--i:1;--ty:1.4em">
-        <p class="fn">cross-functional exposure</p>
         <div class="body">
           <h2 class="sm">Cross-functional Exposure</h2>
           <ul>
@@ -640,7 +617,6 @@
   <section class="slide" id="s-next" data-group="next" aria-label="What's next">
     <div class="stage">
       <article class="win" style="--w:46;--i:0">
-        <p class="fn">what's next</p>
         <div class="body">
           <h2>What's Next</h2>
           <p class="lead"><strong>I've seen how a product gets made. Now I want to own how it sells.</strong></p>
@@ -649,7 +625,6 @@
         </div>
       </article>
       <article class="win" style="--w:38;--i:1;--ty:1.4em">
-        <p class="fn">what i will bring.txt</p>
         <div class="body">
           <h2 class="sm">What I will bring to the table:</h2>
           <ul>
@@ -666,7 +641,6 @@
   <section class="slide" id="s-contact" data-group="contact" aria-label="Thank you and contact">
     <div class="stage">
       <article class="win center" style="--w:50;--i:0">
-        <p class="fn">contact</p>
         <div class="body" style="padding:2.2em 2.4em 2.4em">
           <h2 class="big">Thank You</h2>
           <p class="script">for your consideration</p>
