@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Riddhima Kapoor | Portfolio</title>
+<title>Riddhima Kapoor</title>
 <meta name="description" content="Portfolio of Riddhima Kapoor, Fashion Technology student at NIFT, focused on retail merchandising and consumer behaviour analytics.">
-<meta property="og:title" content="Riddhima Kapoor | Portfolio">
+<meta property="og:title" content="Riddhima Kapoor">
 <meta property="og:description" content="Retail merchandising and consumer behaviour analytics: a shipment risk dashboard, a sustainable consumption framework and a customer segmentation model.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#fcfcf2">
@@ -43,12 +43,15 @@
   .topnav a, .topnav button { flex: none; padding: 0 0 3px; border: 0; background: none; cursor: pointer; text-decoration: none; font-size: 12.5px; letter-spacing: .005em; color: var(--mute); border-bottom: 1.5px solid transparent; transition: color .15s ease; }
   .topnav a:hover, .topnav button:hover { color: var(--ink); }
   .topnav button[aria-current="true"] { color: var(--ink); border-bottom-color: var(--ink); }
-  .scroll-thread { position: fixed; z-index: 1; top: 0; bottom: 0; left: clamp(14px, 2.5vw, 40px); width: 3px; background: var(--hair); pointer-events: none; }
+  .scroll-thread { display: none; }
 
   /* ---------- slides ---------- */
   main { position: relative; }
   .slide { position: relative; height: 100vh; height: 100svh; padding: var(--top) var(--pad) var(--bot); font-size: var(--u); }
-  .slide::before { content: ""; position: absolute; z-index: 2; left: calc(clamp(14px, 2.5vw, 40px) - 2.5px); bottom: clamp(28px, 7vh, 72px); width: 8px; height: clamp(56px, 12vh, 132px); border-radius: 99px; background: var(--ink); pointer-events: none; }
+  .slide::before { content: ""; position: absolute; z-index: 2; right: clamp(18px, 3.2vw, 52px); bottom: 0; width: 7px; height: 0; border-radius: 99px; background: var(--ink); pointer-events: none; }
+  .cover::before { height: 50%; }
+  #s-about::before { height: 25%; }
+  #s-cta-1::before { height: 25%; }
   .stage { height: 100%; width: 100%; display: flex; align-items: flex-end; gap: clamp(28px, 4.4vw, 76px); }
   .stage.col { flex-direction: column; align-items: stretch; justify-content: flex-end; gap: 2.4em; }
   .row3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 3.6vw, 60px); width: 100%; }
@@ -127,13 +130,17 @@
   .cover { padding-bottom: var(--bot); }
   .cover-in { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; font-size: var(--u); }
   .cover .id { order: 1; }
-  .cover .name { margin: 0; font-weight: 700; letter-spacing: -.065em; line-height: .82; font-size: clamp(56px, min(14vw, 21vh), 340px); margin-left: -.045em; }
-  .cover .name span { display: block; }
+  .cover .name { position: relative; display: inline-block; width: max-content; max-width: 100%; margin: 0; font-weight: 700; letter-spacing: -.065em; line-height: .92; font-size: clamp(28px, min(7.5vw, 13vh), 150px); margin-left: -.045em; white-space: nowrap; }
+  .cover .name::after { content: ""; display: inline-block; width: .06em; height: .9em; margin-left: .14em; vertical-align: -.08em; background: var(--ink); animation: cursor-blink 1s steps(1) infinite; }
+  @keyframes cursor-blink { 50% { opacity: 0; } }
   .cover .inst { margin: .9em 0 0; font-weight: 700; letter-spacing: -.035em; line-height: 1; font-size: clamp(22px, min(3.6vw, 6.4vh), 64px); }
   .cover .meta-row { order: 2; margin-top: 1.8em; display: flex; }
   .cover .meta-row span { display: block; line-height: 1.5; font-size: 1.12em; color: var(--mute); }
   .cover .tag { order: 3; margin: 1.6em 0 0; max-width: 40em; font-style: italic; font-size: 1.12em; color: var(--ink); }
-  .cover .portfolio { order: 4; margin: 2em 0 0; font-size: 1.12em; font-weight: 700; letter-spacing: -.02em; text-transform: capitalize; }
+  .cover .portfolio { display: none; }
+
+  .word { display: inline-block; opacity: 0; transform: translateY(.45em); transition: opacity .45s ease, transform .45s ease; }
+  .slide.active .word { opacity: 1; transform: none; transition-delay: calc(var(--word-index, 0) * 28ms); }
 
   /* ---------- lightbox ---------- */
   .lightbox { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(252,252,242,.97); cursor: zoom-out; }
@@ -158,7 +165,7 @@
     .win figure img, .win .zoom img, .win .photo img { max-height: none; }
     .cover { min-height: 100svh; }
     .cover-in { min-height: calc(100svh - var(--top) - var(--bot)); }
-    .cover .name { font-size: clamp(56px, 18vw, 132px); }
+    .cover .name { font-size: clamp(28px, 8vw, 64px); }
     .win .big { font-size: 22vw; }
   }
   @media print { .topnav, .scroll-thread, .lightbox { display: none; } .slide { height: auto; } }
@@ -186,9 +193,8 @@
   <!-- ============ 1. COVER ============ -->
   <section class="slide cover active" id="s-cover" data-group="" aria-label="Cover">
     <div class="cover-in">
-      <h1 class="portfolio">Portfolio</h1>
       <div class="id">
-        <p class="name"><span>Riddhima</span> <span>Kapoor</span></p>
+        <h1 class="name">Hi, I'm Riddhima Kapoor.</h1>
         <p class="inst">NIFT | BFT</p>
       </div>
       <div class="meta-row">
@@ -699,6 +705,37 @@
   var navEl = document.getElementById('nav');
   var current = -1;
 
+  function prepareWordReveal() {
+    var index = 0;
+    var walker = document.createTreeWalker(document.getElementById('main'), NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        var parent = node.parentElement;
+        if (!parent || !node.nodeValue.trim() || parent.closest('script, style, button, a, .zoom, .lightbox')) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes = [];
+    var node;
+    while ((node = walker.nextNode())) nodes.push(node);
+    nodes.forEach(function (textNode) {
+      var fragment = document.createDocumentFragment();
+      textNode.nodeValue.split(/(\s+)/).forEach(function (part) {
+        if (/^\s+$/.test(part) || !part) {
+          fragment.appendChild(document.createTextNode(part));
+          return;
+        }
+        var word = document.createElement('span');
+        word.className = 'word';
+        word.style.setProperty('--word-index', index++ % 18);
+        word.textContent = part;
+        fragment.appendChild(word);
+      });
+      textNode.parentNode.replaceChild(fragment, textNode);
+    });
+  }
+
   function setActive(i) {
     if (i === current) return;
     current = i;
@@ -769,6 +806,7 @@
     if (e.key === 'Escape' && box.classList.contains('open')) closeBox();
   });
 
+  prepareWordReveal();
   measure();
 })();
 
